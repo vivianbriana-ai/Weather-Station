@@ -1,15 +1,15 @@
 from flask import Flask, render_template, jsonify
 import sqlite3
 
-app = Flask(__name__)
+app = Flask(__name__) # instantiates the main application entry object using the unique namespace string identifier
 
 def get_latest_reading():
-    conn = sqlite3.connect('weather.db')
+    conn = sqlite3.connect('weather.db') # establishes filesystem channel connection
     conn.row_factory = sqlite3.Row  # Allows accessing columns by name
     cursor = conn.cursor()
-    cursor.execute('SELECT * FROM sensor_data ORDER BY timestamp DESC LIMIT 1')
+    cursor.execute('SELECT * FROM sensor_data ORDER BY timestamp DESC LIMIT 1') # queries database tables to pull most recent entry
     row = cursor.fetchone()
-    conn.close()
+    conn.close() # terminates active runtime locks
     return row
 
 def get_historical_readings():
